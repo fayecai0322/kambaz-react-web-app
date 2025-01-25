@@ -9,32 +9,36 @@ import Zoom from "./Zoom";
 import Grades from "./Grades";
 import Quizzes from "./Quizzes";
 import Quiz from "./Quizzes/Quiz";
-import People from "./People";
+import PeopleTable from "./People/Table";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAlignJustify } from "@fortawesome/free-solid-svg-icons";
 
 export default function Courses() {
     return (
       <div id="wd-courses">
-        <h2>Course 1234</h2><hr />
-        <table>
-            <tr>
-                <td valign="top"><CoursesNavigation /></td>
-                <td valign="top">
-                    <Routes>
-                        <Route path="/" element={<Navigate to="Home" />} />
-                        <Route path="Home" element={<Home />} />
-                        <Route path="Modules" element={<Modules />} />
-                        <Route path="Assignments" element={<Assignments />} />
-                        <Route path="Assignments/:aid" element={<AssignmentEditor/>} />
-                        <Route path="People" element={<People />} />
-                        <Route path="Zoom" element={<Zoom />} />
-                        <Route path="Grades" element={<Grades />} />
-                        <Route path="Quizzes" element={<Quizzes/>} />
-                        <Route path="Quizzes/:aid" element={<Quiz />} />
-                        <Route path="Piazza" element={<Piazza />} />
-                    </Routes>
-                </td>
-            </tr>
-        </table>
+        <h2 className="text-danger">
+            <FontAwesomeIcon icon={faAlignJustify} className="me-4 fs-4 mb-1" />
+                 Course 1234
+        </h2>
+        <div className="d-flex">
+            <div className="d-none d-md-block">
+                <CoursesNavigation />
+            </div>
+            <div className="flex-fill">
+                <Routes>
+                    <Route path="/" element={<Navigate to="Home" />} />
+                    <Route path="Home" element={<Home />} />
+                    <Route path="Modules" element={<Modules />} />
+                    <Route path="Assignments" element={<Assignments />} />
+                    <Route path="Assignments/:aid" element={<AssignmentEditor/>} />
+                    <Route path="People" element={<PeopleTable />} />
+                    <Route path="Zoom" element={<Zoom />} />
+                    <Route path="Grades" element={<Grades />} />
+                    <Route path="Quizzes" element={<Quizzes/>} />
+                    <Route path="Quizzes/:aid" element={<Quiz />} />
+                    <Route path="Piazza" element={<Piazza />} />
+                </Routes>
+            </div></div>
       </div>
   );}
   

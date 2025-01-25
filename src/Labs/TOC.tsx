@@ -1,26 +1,31 @@
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router";
 export default function TOC() {
+  const { pathname } = useLocation();
   return (
-    <ul>
-      <li>
-        <Link to="/Labs/Lab1" id="wd-a1">
+    <ul className="nav nav-pills">
+      <li className="nav-item">
+        <a id="wd-a" href="#/Labs" className="nav-link">
+          Labs
+        </a>
+      </li>
+      <li className="nav-item">
+        <a id="wd-a1" href="#/Labs/Lab1"
+          className={`nav-link ${pathname.includes("Lab1") ? "active" : ""}`}>
           Lab 1
-        </Link>
+        </a>
       </li>
-      <li>
-        <Link to="/Labs/Lab2" id="wd-a2">
+      <li className="nav-item">
+        <a id="wd-a2" href="#/Labs/Lab2"
+          className={`nav-link ${pathname.includes("Lab2") ? "active" : ""}`}>
           Lab 2
-        </Link>
+        </a>
       </li>
-      <li>
-        <Link to="/Labs/Lab3" id="wd-a3">
+      <li className="nav-item">
+        <a id="wd-a3" href="#/Labs/Lab3"
+          className={`nav-link ${pathname.includes("Lab3") ? "active" : ""}`}>
           Lab 3
-        </Link>
-      </li>
-      <li>
-        <Link to="/Kambaz" id="wd-kambaz">
-          Kambaz
-        </Link>
+        </a>
       </li>
     </ul>
   );

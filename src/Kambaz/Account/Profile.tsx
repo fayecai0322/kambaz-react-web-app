@@ -1,33 +1,98 @@
 import { Link } from "react-router-dom";
+
 export default function Profile() {
   return (
-    <div id="wd-profile-screen">
-      <h3>Profile</h3>
-      <label htmlFor="wd-username">Username:</label><br />
-      <input id="wd-username" value="alice" placeholder="username" /><br/>
-      
-      <label htmlFor="wd-password">Password:</label><br />
-      <input id="wd-password" value="123" placeholder="password" type="password" /><br/>
-      
-      <label htmlFor="wd-firstname">First Name:</label><br />
-      <input id="wd-firstname" value="Alice" placeholder="First Name" /><br/>
+    <div id="wd-profile-screen" className="container mt-5 d-flex justify-content-center align-items-center">
+      <div className="card shadow p-4" style={{ maxWidth: "700px", width: "100%" }}>
+        <h3 className="text-center mb-4">Profile</h3>
+        <form>
+          {/* Username */}
+          <div className="mb-3">
+            <input
+              id="wd-username"
+              className="form-control"
+              value="alice"
+              placeholder="Username"
+              type="text"
+            />
+          </div>
 
-      <label htmlFor="wd-lastname">Last Name:</label><br />
-      <input id="wd-lastname" value="Wonderland" placeholder="Last Name" /><br/>
+          {/* Password */}
+          <div className="mb-3">
+            <input
+              id="wd-password"
+              className="form-control"
+              value="123"
+              placeholder="Password"
+              type="password"
+            />
+          </div>
 
-      <label htmlFor="wd-dob">Date Of Birth:</label><br />
-      <input id="wd-dob" value="2000-01-01" type="date" /><br/>
+          {/* First Name */}
+          <div className="mb-3">
+            <input
+              id="wd-firstname"
+              className="form-control"
+              value="Alice"
+              placeholder="First Name"
+              type="text"
+            />
+          </div>
 
-      <label htmlFor="wd-email">Email:</label><br />
-      <input id="wd-email" value="alice@wonderland" type="email" /><br/>
+          {/* Last Name */}
+          <div className="mb-3">
+            <input
+              id="wd-lastname"
+              className="form-control"
+              value="Wonderland"
+              placeholder="Last Name"
+              type="text"
+            />
+          </div>
 
-      <label htmlFor="wd-role">Role:</label><br />
-      <select id="wd-role">
-        <option value="USER">User</option>
-        <option value="ADMIN">Admin</option>
-        <option value="FACULTY">Faculty</option>
-        <option value="STUDENT">Student</option>
-      </select><br/>
-      <Link to="/Kambaz/Account/Signin" >Sign out</Link>
+          {/* Date of Birth */}
+          <div className="mb-3">
+            <input
+              id="wd-dob"
+              className="form-control"
+              value="2000-01-01"
+              placeholder="Date of Birth"
+              type="date"
+            />
+          </div>
+
+          {/* Email */}
+          <div className="mb-3">
+            <input
+              id="wd-email"
+              className="form-control"
+              value="alice@wonderland"
+              placeholder="Email"
+              type="email"
+            />
+          </div>
+
+          {/* Role */}
+          <div className="mb-3">
+            <select id="wd-role" className="form-control">
+              <option value="USER">User</option>
+              <option value="ADMIN">Admin</option>
+              <option value="FACULTY">Faculty</option>
+              <option value="STUDENT">Student</option>
+            </select>
+          </div>
+
+          {/* Buttons */}
+          <div className="d-flex justify-content-between mt-4">
+            <Link to="/Kambaz/Dashboard" className="btn btn-primary">
+              Save
+            </Link>
+            <Link to="/Kambaz/Account/Signin" className="btn btn-danger">
+              Sign Out
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
-);}
+  );
+}
