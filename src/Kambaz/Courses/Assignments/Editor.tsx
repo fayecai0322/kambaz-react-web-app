@@ -1,11 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import * as db from "../../Database"; //import assignments from the database
 
 export default function AssignmentEditor() {
+  const {cid, aid} = useParams(); //get course ID and assignment ID from url
+  const assignment = db.assignments.find((a:any)=> a._id === aid); // Find the assignment in database
   return (
     <div id="wd-assignments-editor" className="container mt-5">
       {/* Breadcrumb */}
       <p className="mb-4 fs-5">
-        <strong>CS5610</strong> &gt; Assignments &gt; A1
+        <strong>{cid}</strong> &gt; Assignments &gt; {assignment ? assignment.title : "Unknown Assignment"}
       </p>
 
       {/* Form */}
@@ -16,26 +19,15 @@ export default function AssignmentEditor() {
             <label htmlFor="wd-name" className="form-label">
               Assignment Name
             </label>
-            <input
-              id="wd-name"
-              className="form-control"
-              defaultValue="A1"
-            />
+            <input id="wd-name" className="form-control" defaultValue={assignment?.title}/>
           </div>
         </div>
 
         {/* Assignment Description */}
         <div className="row mb-4">
           <div className="col-md-12">
-            <label htmlFor="wd-description" className="form-label">
-              Assignment Description
-            </label>
-            <textarea
-              id="wd-description"
-              className="form-control"
-              rows={12}
-              defaultValue={`The assignment is available online.\nSubmit a link to the landing page of your Web application running on Netlify.\n\nThe landing page should include the following:\n- Your full name and section\n- Links to each of the lab assignments\n- Link to the Kanbas application\n- Links to all relevant source code repositories\n\nThe Kanbas application should include a link to navigate back to the landing page.`}
-            ></textarea>
+          <label htmlFor="wd-description" className="form-label">Assignment Description</label>
+            <textarea id="wd-description" className="form-control" rows={6} defaultValue={"Write the description here"}></textarea>
           </div>
         </div>
 
@@ -50,7 +42,7 @@ export default function AssignmentEditor() {
                 id="wd-points"
                 type="number"
                 className="form-control"
-                defaultValue={100}
+                defaultValue={100} 
                 />
             </div>
             </div>
@@ -68,6 +60,8 @@ export default function AssignmentEditor() {
           </select>
             </div>
         </div>
+
+
 
         {/* Submission Type and Online Entry Options */}
         <div className="row mb-4">
@@ -209,20 +203,10 @@ export default function AssignmentEditor() {
         </div>
         </div>
 
-        {/* Buttons */}
-        <div className="d-flex justify-content-end">
-          <Link
-            to="/Kambaz/Courses/1234/Assignments"
-            className="btn btn-secondary me-2"
-          >
-            Cancel
-          </Link>
-          <Link
-            to="/Kambaz/Courses/1234/Assignments"
-            className="btn btn-primary"
-          >
-            Save
-          </Link>
+         {/* Buttons: Cancel & Save */}
+         <div className="d-flex justify-content-end">
+          <Link to={`/Kambaz/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">Cancel</Link>
+          <Link to={`/Kambaz/Courses/${cid}/Assignments`} className="btn btn-primary">Save</Link>
         </div>
       </form>
     </div>

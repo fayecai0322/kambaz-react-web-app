@@ -3,10 +3,12 @@ import { FaSearch, FaRegFileAlt } from "react-icons/fa";
 import { AssignmentButtons } from "./AssignmentButtons";
 import AssignmentControlButtons from "./AssignmentControlButton";
 import AssignmentPercentageButton from "./AssignmentPercentageButton";
-import { Link } from "react-router-dom";
-
+import { Link , useParams} from "react-router-dom";
+import * as db from "../../Database"; //import assginmnets from database
 
 export default function Assignments() {
+  const {cid} = useParams();
+  const assignments = db.assignments.filter((assignment:any)=> assignment.course === cid);// Get assignments for this course
   return (
     <div className="container mt-4">
       {/* Top Section: Search Bar and Buttons */}
@@ -40,77 +42,41 @@ export default function Assignments() {
             <AssignmentPercentageButton />
           </div>
 
-          {/* Assignments List */}
+          {/* Dynamically Render Assignments */}
           <ul className="wd-lessons list-group rounded-0">
-            {/* Assignment A1 */}
-            <li
-              className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-start justify-content-between"
-              style={{ borderLeft: "3px solid green" }} // Green border
-            >
-              <div className="d-flex align-items-start">
-                <BsGripVertical className="me-2 fs-3" />
-                <div>
-                <Link to="/Kambaz/Courses/1234/Assignments/Editor" className="text-dark text-decoration-none">
-                  <div className="d-flex align-items-center">
-                  <FaRegFileAlt className="me-2 text-success fs-5" />
-                    <strong>A1</strong>
+            {assignments.length > 0 ? (
+              assignments.map((assignment: any) => (
+                <li
+                  key={assignment._id}
+                  className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-start justify-content-between"
+                  style={{ borderLeft: "3px solid green" }} // Green border
+                >
+                  <div className="d-flex align-items-start">
+                    <BsGripVertical className="me-2 fs-3" />
+                    <div>
+                      <Link
+                        to={`/Kambaz/Courses/${cid}/Assignments/${assignment._id}`}
+                        className="text-dark text-decoration-none"
+                      >
+                        <div className="d-flex align-items-center">
+                          <FaRegFileAlt className="me-2 text-success fs-5" />
+                          <strong>{assignment.title}</strong>
+                        </div>
+                      </Link>
+                      <p className="text-muted mb-0 ms-4 fs-6">
+                      <span className="text-danger">Multiple Modules</span> | 
+                        Due: {assignment.due ? assignment.due : "TBD"}  |  
+                        Points: {assignment.points ? assignment.points : "N/A"}  |  
+                        Available: {assignment.availableFrom ? assignment.availableFrom : "N/A"} - {assignment.availableUntil ? assignment.availableUntil : "N/A"}
+                      </p>
+                    </div>
                   </div>
-                  </Link>
-                  <p className="text-muted mb-0 ms-4 fs-6">
-                  <span className="text-danger"> Multiple Modules </span> | Not available until May 6 at 12:00 am |
-                    Due May 13 at 11:59 pm | 100 pts
-                  </p>
-                </div>
-              </div>
-              <AssignmentControlButtons />
-            </li>
-
-            {/* Assignment A2 */}
-            <li
-              className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-start justify-content-between"
-              style={{ borderLeft: "3px solid green" }} // Green border
-            >
-              <div className="d-flex align-items-start">
-              <BsGripVertical className="me-2 fs-3" /> 
-                <div>
-                <Link to="/Kambaz/Courses/1234/Assignments/Editor" className="text-dark text-decoration-none">
-                  <div className="d-flex align-items-center">
-                  <FaRegFileAlt className="me-2 text-success fs-5" />
-                    <strong>A2</strong>
-                  </div>
-                  </Link>
-                  <p className="text-muted mb-0 ms-4 fs-6">
-                  <span className="text-danger"> Multiple Modules </span> | Not available until May 13 at 12:00 am |
-                    Due May 20 at 11:59 pm | 100 pts
-                  </p>
-                </div>
-              </div>
-              <AssignmentControlButtons />
-            </li>
-
-            {/* Assignment A3 */}
-            <li
-              className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-start justify-content-between"
-              style={{ borderLeft: "3px solid green" }} // Green border
-            >
-              <div className="d-flex align-items-start">
-              <BsGripVertical className="me-2 fs-3" />
-                <div>
-                <Link to="/Kambaz/Courses/1234/Assignments/Editor" className="text-dark text-decoration-none">
-                  <div className="d-flex align-items-center">  
-                  <FaRegFileAlt className="me-2 text-success fs-5" />
-                    <strong>A3</strong>
-                  </div>
-                  </Link>
-                  
-                  <p className="text-muted mb-0 ms-4 fs-6">
-                    <span className="text-danger"> Multiple Modules </span>| Not available until May 20 at 12:00 am |
-                    Due May 27 at 11:59 pm | 100 pts
-                  </p>
-                </div>
-              </div>
-              <AssignmentControlButtons />
-            </li>
+                  <AssignmentControlButtons />
+                </li>
+              ))
+            ) : (
+              <p className="text-center text-muted p-3">No assignments available for this course.</p>
+            )}
           </ul>
         </li>
       </ul>

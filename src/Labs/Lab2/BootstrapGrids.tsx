@@ -1,6 +1,6 @@
 export default function () {
     return (
-      <div className="container">
+      <div className="container-fluid">
         <h2>Bootstrap</h2>
         <div id="wd-bs-grid-system">
           <h2>Grid system</h2>
