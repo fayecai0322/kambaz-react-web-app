@@ -11,63 +11,57 @@ export default function AssignmentEditor() {
       {/* Form */}
       <form>
         {/* Assignment Name */}
-        <div className="row mb-4">
-          <div className="col-md-12">
-            <label htmlFor="wd-name" className="form-label">
-              Assignment Name
-            </label>
-            <input
-              id="wd-name"
-              className="form-control"
-              defaultValue="A1"
-            />
-          </div>
-        </div>
+      <div className="mb-3">
+        <label htmlFor="wd-name" className="form-label">
+          <strong>Assignment Name</strong>
+        </label>
+        <input id="wd-name" className="form-control" defaultValue="A1" />
+      </div>
 
         {/* Assignment Description */}
-        <div className="row mb-4">
-          <div className="col-md-12">
-            <label htmlFor="wd-description" className="form-label">
-              Assignment Description
-            </label>
-            <textarea
-              id="wd-description"
-              className="form-control"
-              rows={12}
-              defaultValue={`The assignment is available online.\nSubmit a link to the landing page of your Web application running on Netlify.\n\nThe landing page should include the following:\n- Your full name and section\n- Links to each of the lab assignments\n- Link to the Kanbas application\n- Links to all relevant source code repositories\n\nThe Kanbas application should include a link to navigate back to the landing page.`}
-            ></textarea>
-          </div>
+      <div className="row mb-3">
+          <textarea
+            id="wd-description"
+            className="form-control"
+            rows={12}
+            defaultValue={`The assignment is available online.\nSubmit a link to the landing page of your Web application running on Netlify.\n\nThe landing page should include the following:\n- Your full name and section\n- Links to each of the lab assignments\n- Link to the Kanbas application\n- Links to all relevant source code repositories\n\nThe Kanbas application should include a link to navigate back to the landing page.`}
+          ></textarea>
         </div>
 
-        {/* Points */}
-        <div className="row mb-4 align-items-center">
-            <div className="col-md-4">
-                <label htmlFor="wd-points" className="form-label">
-                    Points</label>
-            </div>
-            <div className="col-md-8">
-            <input
-                id="wd-points"
-                type="number"
-                className="form-control"
-                defaultValue={100}
-                />
-            </div>
-            </div>
+        {/* Points - Aligned Right */}
+        <div className="mb-3 d-flex justify-content-between align-items-center">
+          <label htmlFor="wd-points" className="form-label text-end flex-grow-1">
+            Points
+          </label>
+          <input
+            id="wd-points"
+            type="number"
+            className="form-control w-50 ms-2"
+            defaultValue={100}
+          />
+        </div>
 
-        {/* Assignment Group */}
-        <div className="row mb-4 align-items-center">
-          <div className="col-md-4">
-            <label htmlFor="wd-group" className="form-label">
-              Assignment Group</label>
-          </div>
-          <div className="col-md-8">
-          <select id="wd-group" className="form-control">
-              <option value="assignments">ASSIGNMENTS</option>
-              <option value="instructions">INSTRUCTIONS</option>
+        {/* Assignment Group - Aligned Right */}
+        <div className="mb-3 d-flex justify-content-between align-items-center">
+          <label htmlFor="wd-group" className="form-label text-end flex-grow-1">
+            Assignment Group
+          </label>
+          <select id="wd-group" className="form-control w-50 ms-2">
+            <option value="assignments">ASSIGNMENTS</option>
+            <option value="others">OTHERS</option>
           </select>
-            </div>
         </div>
+
+        {/* Display Grade As - Aligned Right */}
+      <div className="mb-3 d-flex justify-content-between align-items-center">
+        <label htmlFor="wd-grade-display" className="form-label text-end flex-grow-1">
+          Display Grade as
+        </label>
+        <select id="wd-grade-display" className="form-control w-50 ms-2">
+          <option value="percentage">Percentage</option>
+          <option value="rank">Rank</option>
+        </select>
+      </div>
 
         {/* Submission Type and Online Entry Options */}
         <div className="row mb-4">
@@ -169,43 +163,26 @@ export default function AssignmentEditor() {
               defaultValue="Everyone"
             />
 
-            <div className="row">
-              <div className="col-md-6">
-                <label htmlFor="wd-due-date" className="form-label">
-                <strong>Due</strong>
-                </label>
-                <input
-                  id="wd-due-date"
-                  type="date"
-                  className="form-control"
-                  defaultValue="2024-05-13"
-                />
+            {/* Due on the first line */}
+            <div className="row mb-3">
+                <div className="col-md-12">
+                  <label htmlFor="wd-due-date" className="form-label"><strong>Due</strong></label>
+                  <input id="wd-due-date" type="date" className="form-control" defaultValue="2024-05-13" />
+                </div>
               </div>
-              <div className="col-md-6">
-                <label htmlFor="wd-available-from" className="form-label">
-                <strong>Available from</strong>
-                </label>
-                <input
-                  id="wd-available-from"
-                  type="date"
-                  className="form-control"
-                  defaultValue="2024-05-06"
-                />
-              </div>
-              <div className="col-md-6 mt-3">
-                <label htmlFor="wd-available-until" className="form-label">
-                  <strong>Until</strong>
-                </label>
-                <input
-                  id="wd-available-until"
-                  type="date"
-                  className="form-control"
-                  defaultValue="2024-05-20"
-                />
+              {/* Available and Until on the second line */}
+              <div className="row">
+                <div className="col-md-6">
+                  <label htmlFor="wd-available-from" className="form-label"><strong>Available from</strong></label>
+                  <input id="wd-available-from" type="date" className="form-control" defaultValue="2024-05-06" />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="wd-available-until" className="form-label"><strong>Until</strong></label>
+                  <input id="wd-available-until" type="date" className="form-control" defaultValue="2024-05-20" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
         </div>
 

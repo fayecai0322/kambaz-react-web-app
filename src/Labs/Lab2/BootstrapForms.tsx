@@ -31,7 +31,7 @@ export default function () {
   
         {/* Styling Dropdowns */}
         <div id="wd-css-styling-dropdowns">
-          <h3>Dropdowns</h3>
+        <h3>Dropdowns</h3>
           <select className="form-select">
             <option selected>Open this select menu</option>
             <option value="1">One</option>

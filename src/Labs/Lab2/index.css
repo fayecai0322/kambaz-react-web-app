@@ -8,6 +8,7 @@ p{
     background-color: green;
     color:white;
 }
+*/
 p#wd-id-selector-1{
     background-color:red;
     color:white;
@@ -16,22 +17,37 @@ p#wd-id-selector-2{
     background-color: yellow;
     color: black;
 }
-*/
+.wd-class-selector{
+    background-color: yellow;
+    color:blue;
+}
+.wd-selector-1 .wd-selector-3{
+    background-color: red;
+    color:white;
+}
+.wd-selector-2 > .wd-selector-3 > .wd-selector-4 { /*comparing to  .wd-selector-4{}  it is more specific*/
+    background-color: yellow;
+    color: blue;
+    }
+/*foreground colors */
+.wd-fg-color-black { color: black; }
+.wd-fg-color-white { color: white; }
+.wd-fg-color-blue { color: #7070ff; }
+.wd-fg-color-red { color: #ff7070; }
+.wd-fg-color-green { color: green; }
 .wd-bg-color-yellow {
     background-color: #ffff07;
     }
-.wd-bg-color-blue {
+    .wd-bg-color-blue {
     background-color: #7070ff;
     }
-.wd-bg-color-red {
+    .wd-bg-color-red {
     background-color: #ff7070;
     }
-.wd-bg-color-green {
-    background-color: green; 
-}
-.wd-bg-color-gray {
-    background-color: lightgray; 
-}
+    .wd-bg-color-green {
+    background-color: green; }
+    .wd-bg-color-gray {
+    background-color: lightgray; }
 .wd-border-fat{
     border-width: 20px 30px 20px 30px;
 }
@@ -40,6 +56,9 @@ p#wd-id-selector-2{
 }
 .wd-border-solid{
     border-style:solid;
+}
+.wd-border-dashed{
+    border-style: dashed;
 }
 .wd-border-yellow {
     border-color: #ffff07; }
@@ -188,3 +207,15 @@ float: left;
 .wd-width-75px{
     width: 75px;
 }
+#wd-screen-size-label {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    z-index: 1000;
+    width: 220px;
+    text-align: center;
+    }

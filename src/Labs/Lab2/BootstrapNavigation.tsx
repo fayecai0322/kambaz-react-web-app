@@ -5,8 +5,8 @@ export default function () {
             Cards
             </h2>
         <div className="card"
-            style={{ width: "10px" }}></div>
-            <img src="images/reactjs.jpg"
+            style={{ width: "18rem" }}></div>
+            <img src="images/stacked.jpg"
             className="card-img-top" />
         <div className="card-body">
             <h5 className="card-title">
