@@ -3,7 +3,7 @@ const hello = () => {
 };
 
 const lifeIs = (good: string) => {
-    alert('Lief is ${good}');
+    alert(`Life is ${good}`); // ✅ Use backticks for template literals
 };
 
 export default function ClickEvent(){
