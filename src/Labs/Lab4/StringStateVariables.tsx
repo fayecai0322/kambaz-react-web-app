@@ -1,4 +1,4 @@
-import React, {useState} from "react"; // import useState
+import  {useState} from "react"; // import useState
 export default function StringStateVariables(){
     const[firstName, setFirstName] = useState("John");
     return ( // initialize

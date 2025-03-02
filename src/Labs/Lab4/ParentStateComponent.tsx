@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ChildStateComponent from "./ChildStateCompnent";
 
 export default function ParentStateComponent() {

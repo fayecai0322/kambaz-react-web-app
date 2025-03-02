@@ -1,4 +1,3 @@
-import React from "react";
 
 // ✅ Define Todo type
 type Todo = {
