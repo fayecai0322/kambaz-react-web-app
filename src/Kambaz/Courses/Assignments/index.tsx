@@ -1,17 +1,21 @@
 import { BsGripVertical } from "react-icons/bs";
-import { FaSearch, FaRegFileAlt } from "react-icons/fa";
+import { FaSearch, FaRegFileAlt, FaTrash } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteAssignment } from "./reducer";
 import { AssignmentButtons } from "./AssignmentButtons";
-import AssignmentControlButtons from "./AssignmentControlButton";
 import AssignmentPercentageButton from "./AssignmentPercentageButton";
-import { Link , useParams} from "react-router-dom";
-import * as db from "../../Database"; //import assginmnets from database
 
 export default function Assignments() {
-  const {cid} = useParams();
-  const assignments = db.assignments.filter((assignment:any)=> assignment.course === cid);// Get assignments for this course
+  const { cid } = useParams();
+  const dispatch = useDispatch();
+  const assignments = useSelector((state: any) =>
+    state.assignmentsReducer.assignments.filter((assignment: any) => assignment.course === cid)
+  );
+
   return (
     <div className="container mt-4">
-      {/* Top Section: Search Bar and Buttons */}
+      {/* Top Section */}
       <div className="d-flex align-items-center mb-3">
         {/* Search Bar */}
         <div className="input-group me-auto" style={{ maxWidth: "300px" }}>
@@ -20,19 +24,17 @@ export default function Assignments() {
           </span>
           <input
             type="text"
-            id="wd-search-assignment"
             className="form-control border-start-0"
             placeholder="Search..."
           />
         </div>
 
-        {/* Group and Assignment Buttons */}
+        {/* Add Assignment Buttons */}
         <AssignmentButtons />
       </div>
 
       {/* Assignments Section */}
       <ul id="wd-assignments" className="list-group rounded-0">
-        {/* Assignments Header */}
         <li className="wd-assignment list-group-item p-0 mb-5 fs-5 border-gray">
           <div className="wd-title p-3 ps-2 bg-secondary d-flex align-items-center justify-content-between">
             <div className="d-flex align-items-center">
@@ -43,14 +45,10 @@ export default function Assignments() {
           </div>
 
           {/* Dynamically Render Assignments */}
-          <ul className="wd-lessons list-group rounded-0">
+          <ul className="list-group rounded-0">
             {assignments.length > 0 ? (
               assignments.map((assignment: any) => (
-                <li
-                  key={assignment._id}
-                  className="wd-lesson list-group-item p-3 ps-1 d-flex align-items-start justify-content-between"
-                  style={{ borderLeft: "3px solid green" }} // Green border
-                >
+                <li key={assignment._id} className="list-group-item p-3 d-flex justify-content-between align-items-center">
                   <div className="d-flex align-items-start">
                     <BsGripVertical className="me-2 fs-3" />
                     <div>
@@ -64,18 +62,22 @@ export default function Assignments() {
                         </div>
                       </Link>
                       <p className="text-muted mb-0 ms-4 fs-6">
-                      <span className="text-danger">Multiple Modules</span> | 
-                        Due: {assignment.due ? assignment.due : "TBD"}  |  
-                        Points: {assignment.points ? assignment.points : "N/A"}  |  
-                        Available: {assignment.availableFrom ? assignment.availableFrom : "N/A"} - {assignment.availableUntil ? assignment.availableUntil : "N/A"}
+                        Due: {assignment.due || "TBD"} | Points: {assignment.points || "N/A"}
                       </p>
                     </div>
                   </div>
-                  <AssignmentControlButtons />
+
+                  {/* Delete Button */}
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => dispatch(deleteAssignment(assignment._id))}
+                  >
+                    <FaTrash />
+                  </button>
                 </li>
               ))
             ) : (
-              <p className="text-center text-muted p-3">No assignments available for this course.</p>
+              <p className="text-center text-muted p-3">No assignments available.</p>
             )}
           </ul>
         </li>
@@ -83,4 +85,3 @@ export default function Assignments() {
     </div>
   );
 }
-

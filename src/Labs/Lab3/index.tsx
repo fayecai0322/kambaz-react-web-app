@@ -30,11 +30,21 @@ import Classes from "./Classes";
 import Styles from "./Styles";
 import Add from "./Add";
 import PathParameters from "./PathParameters";
+import { useSelector } from "react-redux";
 
 export default function Lab3(){
+    const {todos} = useSelector((state:any) => state.todosReducer);
     return (
         <div id="wd-lab3">
             <h2> Lab 3 HAHA</h2>
+            <ul className="list-group">
+                {todos.map((todo: { id: string; title: string })=>(
+                    <li className="list-group-item" key={todo.id}>
+                     {todo.title}   
+                    </li>
+                ))}
+            </ul>
+            <hr />
             <VariablesAndConstants />
             <VariableTypes />
             <BooleanVariable />
