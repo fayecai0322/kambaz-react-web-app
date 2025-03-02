@@ -12,7 +12,6 @@ import Quiz from "./Quizzes/Quiz";
 import PeopleTable from "./People/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlignJustify } from "@fortawesome/free-solid-svg-icons";
-import { courses } from "../Database";
 
 export default function Courses({ courses }: { courses: any[] }) {
     const { cid } = useParams();

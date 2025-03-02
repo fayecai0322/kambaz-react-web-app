@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { enrollStudent, unenrollStudent } from "./Courses/Enrollments/reducer";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import * as db from "./Database";
 
 // ✅ Define Course Type
 interface Course {

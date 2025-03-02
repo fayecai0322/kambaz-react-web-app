@@ -2,10 +2,8 @@ import { BsGripVertical } from "react-icons/bs";
 import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
-import * as db from "../../Database";
 import { useParams } from "react-router";
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
 import { addModule, editModule, updateModule, deleteModule } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 
