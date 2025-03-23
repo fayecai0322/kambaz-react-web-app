@@ -10,3 +10,4 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 )
+console.log("VITE_APP_REMOTE_SERVER:", import.meta.env.VITE_APP_REMOTE_SERVER);

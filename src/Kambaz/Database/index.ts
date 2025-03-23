@@ -1,7 +1,5 @@
-import courses from "./courses.json";
-import modules from "./modules.json";
-import assignments from "./assignments.json";
-import users from "./users.json";
-import enrollments from "./enrollments.json";
-
-export {courses,modules,assignments,users,enrollments} ;
+export const courses = require("./courses.js");
+export const modules = require("./modules.js");
+export const assignments = require("./assignments.js");
+export const users = require("./users.js");
+export const enrollments = require("./enrollments.js"); 

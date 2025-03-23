@@ -1,9 +1,9 @@
 import { Navigate, Route, Routes, useParams } from "react-router";
 import CoursesNavigation from "./Navigation";
-import Modules from "./Modules";
+import Modules from "../Modules";
 import Home from "./Home";
-import Assignments from "./Assignments";
-import AssignmentEditor from "./Assignments/Editor";
+import Assignments from "../Assignments";
+import AssignmentEditor from "../Assignments/Editor";
 import Piazza from "./Piazza";
 import Zoom from "./Zoom";
 import Grades from "./Grades";
