@@ -9,7 +9,7 @@ import Zoom from "./Zoom";
 import Grades from "./Grades";
 import Quizzes from "./Quizzes";
 import Quiz from "./Quizzes/Quiz";
-import PeopleTable from "./People/Table";
+import People from "./People";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlignJustify } from "@fortawesome/free-solid-svg-icons";
 
@@ -42,7 +42,7 @@ export default function Courses({ courses }: { courses: any[] }) {
                         <Route path="Modules" element={<Modules />} />
                         <Route path="Assignments" element={<Assignments />} />
                         <Route path="Assignments/:aid" element={<AssignmentEditor />} />
-                        <Route path="People" element={<PeopleTable />} />
+                        <Route path="People" element={<People />} />
                         <Route path="Zoom" element={<Zoom />} />
                         <Route path="Grades" element={<Grades />} />
                         <Route path="Quizzes" element={<Quizzes />} />
