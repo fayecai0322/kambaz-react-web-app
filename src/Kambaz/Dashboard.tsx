@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { enrollStudent, unenrollStudent, setEnrollments } from "./Enrollments/reducer";
+import {  setEnrollments } from "./Enrollments/reducer";
 import * as enrollmentsClient from "./Enrollments/client";
 
 // ✅ 类型定义
@@ -35,11 +35,11 @@ interface DashboardProps {
 
 export default function Dashboard({
   courses,
-  course,
-  setCourse,
-  addNewCourse,
-  deleteCourse,
-  updateCourse,
+  // course,
+  // setCourse,
+  // addNewCourse,
+  // deleteCourse,
+  // updateCourse,
 }: DashboardProps) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
@@ -50,16 +50,6 @@ export default function Dashboard({
   const isEnrolled = (courseId: string) =>
     Array.isArray(enrollments) &&
     enrollments.some((e: Enrollment) => e.user === currentUser?._id && e.course === courseId);
-
-  const handleEnroll = async (courseId: string) => {
-    await enrollmentsClient.enrollInCourse(currentUser._id, courseId);
-    dispatch(enrollStudent({ _id: "", user: currentUser._id, course: courseId }));
-  };
-
-  const handleUnenroll = async (courseId: string) => {
-    await enrollmentsClient.unenrollFromCourse(currentUser._id, courseId);
-    dispatch(unenrollStudent({ _id: "", user: currentUser._id, course: courseId }));
-  };
 
   const filteredCourses =
     mode === "UNENROLL"

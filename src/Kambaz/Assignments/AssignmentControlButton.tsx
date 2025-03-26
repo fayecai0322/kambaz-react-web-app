@@ -4,7 +4,6 @@ export default function AssignmentControlButtons() {
 return (
     <div className="float-end">
         <GreenCheckmark />
-        <h4>hello</h4>
         <IoEllipsisVertical className="fs-4" />
         
     </div>

@@ -22,9 +22,23 @@ export default function TOC() {
 
 
       <br />
-      
+      {/* Kambaz */}
       <li className="nav-item"><a id="wd-k" href="#/Kambaz" className="nav-link">Kambaz</a></li>
-      <li className="nav-item"><a id="wd-github" href="https://github.com/fayecai0322" target="_blank"
-      className="nav-link">My GitHub</a></li>
+      {/* GitHub Repository */}
+      <li className="nav-item">
+        <a id="wd-github-server" href="https://github.com/fayecai0322/kambaz-node-server-app" target="_blank" className="nav-link">
+          My GitHub Repository-Server
+        </a>
+         <a id="wd-github-front" href="https://github.com/fayecai0322/kambaz-react-web-app/tree/a5" target="_blank" className="nav-link">
+          My GitHub Repository-frontend
+        </a>
+      </li>
+          {/* Render Server Root */}
+      <li className="nav-item">
+        <a id="wd-server" href="https://kambaz-node-server-app-faye.onrender.com/" target="_blank" className="nav-link">
+          Server Root (Render)
+        </a>
+      </li>
+  
     </ul>
 );}
