@@ -11,17 +11,20 @@ interface Course {
     author?: string;
     image?: string;
 }
-const axioWithCredentials = axios.create({withCredentials:true});
+// ✅ 创建带 cookie 的 axios 实例
+const axiosWithCredentials = axios.create({
+    withCredentials: true
+});
 export const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER; 
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
 
 export const signin = async (credentials: any) => {
 
-    const response = await axioWithCredentials.post(`${USERS_API}/signin`, credentials);
+    const response = await axiosWithCredentials.post(`${USERS_API}/signin`, credentials);
     return response.data;
 };
 export const signup = async (user: any): Promise<{ _id: string; username: string } | { error: string }> => {
-    const response = await axioWithCredentials.post(`${USERS_API}/signup`, user);
+    const response = await axiosWithCredentials.post(`${USERS_API}/signup`, user);
     return response.data as { _id: string; username: string } | { error: string };
 };
 
@@ -31,23 +34,23 @@ export const signup = async (user: any): Promise<{ _id: string; username: string
 // }
 
 export const updateUser = async(user: any)=> {
-    const response = await axioWithCredentials.put(`${USERS_API}/ ${user._id}`, user);
+    const response = await axiosWithCredentials.put(`${USERS_API}/ ${user._id}`, user);
     return response.data;
 }
 
 export const profile = async() => {
-    const response = await axioWithCredentials.post(`${USERS_API}/profile`);
+    const response = await axiosWithCredentials.post(`${USERS_API}/profile`);
     return response.data;
 }
 
 export const signout = async() => {
-    const response = await axioWithCredentials.post(`${USERS_API}/signout`);
+    const response = await axiosWithCredentials.post(`${USERS_API}/signout`);
     return response.data;
 }
 
 export const findMyCourses = async() => {
     // const { data } = await axioWithCredentials.get(`${USERS_API}/${"current"}/courses`);
-    const { data } = await axioWithCredentials.get<Course[]>(`${USERS_API}/current/courses`);
+    const { data } = await axiosWithCredentials.get<Course[]>(`${USERS_API}/current/courses`);
     console.log("✅ Real courses from backend:", data);
 
     //     // ✅ 确保至少返回一个测试数据
@@ -67,6 +70,11 @@ export const findMyCourses = async() => {
 
 //Calls the /api/users/current/courses API to create a course
 export const createCourse = async(course : any) => {
-    const {data} = await axioWithCredentials.post(`${USERS_API}/current/courses`,course);
+    const {data} = await axiosWithCredentials.post(`${USERS_API}/current/courses`,course);
     return data;
 }
+
+export const findCoursesForCurrentUser = async () => {
+    const res = await axiosWithCredentials.get(`${REMOTE_SERVER}/api/users/current/courses`);
+    return res.data;
+  };
