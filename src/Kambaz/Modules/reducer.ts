@@ -25,14 +25,15 @@ const modulesSlice = createSlice({
             state.modules = action.payload;
         },
         addModule: (state, { payload: module }) => {
-            const newModule = {
-                _id: uuidv4(),
-                lessons: [], // ✅ Keep empty lessons array
-                name: module.name,
-                course: module.course,
-                description: module.description || "New Module Description", // ✅ Add a default description
-            };
-            state.modules = [...state.modules, newModule];
+            // const newModule = {
+            //     _id: uuidv4(),
+            //     lessons: [], // ✅ Keep empty lessons array
+            //     name: module.name,
+            //     course: module.course,
+            //     description: module.description || "New Module Description", // ✅ Add a default description
+            // };
+            // state.modules = [...state.modules, newModule];
+            state.modules = [...state.modules, module];
         },
         
         deleteModule: (state, { payload: moduleId }) => {
