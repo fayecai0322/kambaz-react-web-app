@@ -6,7 +6,8 @@ export interface Enrollment {
     course: string;
   }
 
-const API = "/api/enrollments";
+  export const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER;
+  const API = `${REMOTE_SERVER}/api/enrollments`;
 
 export const enrollInCourse = async (userId: string, courseId: string) =>
   await axios.post(API, { userId, courseId });
