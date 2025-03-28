@@ -25,7 +25,10 @@ export default function Enrollments({ userId }: { userId: string }) {
             {e.course}
             <button
               className="btn btn-sm btn-danger"
-              onClick={() => dispatch(unenrollStudent(e))}
+              onClick={async () => {
+                await client.unenrollFromCourse(e.user, e.course); // ✅ 调用后端
+                dispatch(unenrollStudent(e)); // ✅ 然后更新 Redux
+              }}
             >
               Unenroll
             </button>

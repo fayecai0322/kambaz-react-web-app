@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 // import { enrollments } from "../Database";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 interface Enrollment {
   _id: string;
@@ -19,7 +19,8 @@ const enrollmentsSlice = createSlice({
     enrollStudent: (state, { payload }: { payload: Enrollment }) => {
       // Add enrollment if not already enrolled
       if (!state.enrollments.some((e: Enrollment) => e.user === payload.user && e.course === payload.course)) {
-        state.enrollments.push({ _id: uuidv4(), user: payload.user, course: payload.course });
+        // state.enrollments.push({ _id: uuidv4(), user: payload.user, course: payload.course });
+        state.enrollments.push(payload);
       }
     },
     unenrollStudent: (state, { payload }: { payload: Enrollment }) => {

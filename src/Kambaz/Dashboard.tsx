@@ -1,8 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {  setEnrollments } from "./Enrollments/reducer";
+import { setEnrollments, enrollStudent, unenrollStudent } from "./Enrollments/reducer";
 import * as enrollmentsClient from "./Enrollments/client";
+import { toast} from "react-toastify";
 
 // ✅ 类型定义
 interface Course {
@@ -75,7 +76,7 @@ export default function Dashboard({
         <h2 id="wd-dashboard-published">
           Published Courses ({filteredCourses.length})
         </h2>
-        <div>
+        {/* <div>
           <button
             className={`btn btn-sm me-2 ${mode === "ENROLL" ? "btn-primary" : "btn-outline-primary"}`}
             onClick={() => setMode("ENROLL")}
@@ -88,7 +89,7 @@ export default function Dashboard({
           >
             Unenroll
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* ✅ 课程卡片 */}
@@ -111,10 +112,50 @@ export default function Dashboard({
                     >
                       {course.description}
                     </p>
-                    {/* ✅ Go 按钮 */}
-                    <Link to={`/Kambaz/Courses/${course._id}/Home`} className="btn btn-primary">
-                      Go
-                    </Link>
+                    {/* ✅ 按钮区域放在 card 外部 */}
+                    <div className="d-flex justify-content-between align-items-center p-2 pt-0">
+                      <Link to={`/Kambaz/Courses/${course._id}/Home`} className="btn btn-primary btn-sm">
+                        Go
+                      </Link>
+
+                      {mode === "ENROLL" && !isEnrolled(course._id) && (
+                        <button
+                          className="btn btn-outline-success btn-sm"
+                          onClick={async () => {
+                            try {
+                              await enrollmentsClient.enrollInCourse(currentUser._id, course._id);
+                              dispatch(enrollStudent({
+                                _id: "temp",
+                                user: currentUser._id,
+                                course: course._id,
+                              }));
+                              toast.success("✅ Enrolled successfully!");
+                            } catch (err) {
+                              toast.error("❌ Failed to enroll");
+                            }
+                          }}
+                        >
+                          Enroll
+                        </button>
+                      )}
+
+                      {mode === "UNENROLL" && isEnrolled(course._id) && (
+                        <button
+                          className="btn btn-outline-danger btn-sm"
+                          onClick={async () => {
+                            try {
+                              await enrollmentsClient.unenrollFromCourse(currentUser._id, course._id);
+                              dispatch(unenrollStudent({ user: currentUser._id, course: course._id, _id: "" }));
+                              toast.success("✅ Unenrolled!");
+                            } catch (err) {
+                              toast.error("❌ Failed to unenroll");
+                            }
+                          }}
+                        >
+                          Unenroll
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </Link>
 
