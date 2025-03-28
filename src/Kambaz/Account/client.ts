@@ -48,19 +48,20 @@ export const signout = async() => {
 export const findMyCourses = async() => {
     // const { data } = await axioWithCredentials.get(`${USERS_API}/${"current"}/courses`);
     const { data } = await axioWithCredentials.get<Course[]>(`${USERS_API}/current/courses`);
+    console.log("✅ Real courses from backend:", data);
 
-        // ✅ 确保至少返回一个测试数据
-    if (!data || data.length === 0) {
-            console.warn("⚠️ No courses found for user, returning test data.");
-            return [{
-                _id: "RS101",
-                name: "Rocket Propulsion",
-                number: "RS4550",
-                startDate: "2023-01-10",
-                endDate: "2023-05-15",
-                description: "This course provides an in-depth study of rocket propulsion...",
-            }];
-        }
+    //     // ✅ 确保至少返回一个测试数据
+    // if (!data || data.length === 0) {
+    //         console.warn("⚠️ No courses found for user, returning test data.");
+    //         return [{
+    //             _id: "RS101",
+    //             name: "Rocket Propulsion",
+    //             number: "RS4550",
+    //             startDate: "2023-01-10",
+    //             endDate: "2023-05-15",
+    //             description: "This is for TEST",
+    //         }];
+    //     }
     return data;
 };
 
