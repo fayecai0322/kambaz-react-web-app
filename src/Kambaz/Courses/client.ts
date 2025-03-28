@@ -31,3 +31,8 @@ export const findModulesForCourse = async(courseId: string) => {
     const response = await axiosWithCredentials.get(`${COURSES_API}/${courseId}/modules`);
     return response.data;
 }
+//test
+export const findCoursesForCurrentUser = async () => {
+    const res = await axiosWithCredentials.get(`${REMOTE_SERVER}/api/users/current/courses`);
+    return res.data;
+  };

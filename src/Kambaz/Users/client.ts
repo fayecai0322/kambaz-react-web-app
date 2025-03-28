@@ -9,3 +9,4 @@ export const fetchAllUsers = async (): Promise<User[]> => {
   const response = await axioWithCredentials.get<User[]>("/api/users");
   return response.data;
 };
+
