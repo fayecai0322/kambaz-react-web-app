@@ -65,18 +65,36 @@ export default function Dashboard({
     <div id="wd-dashboard" className="p-4">
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
+      
+      {/* ✅ 顶部栏：标题 + 切换按钮 */}
       <div className="d-flex justify-content-between align-items-center">
         <h2 id="wd-dashboard-published">
           Published Courses ({filteredCourses.length})
         </h2>
+        <div>
+          <button
+            className={`btn btn-sm me-2 ${mode === "ENROLL" ? "btn-primary" : "btn-outline-primary"}`}
+            onClick={() => setMode("ENROLL")}
+          >
+            Enroll
+          </button>
+          <button
+            className={`btn btn-sm ${mode === "UNENROLL" ? "btn-danger" : "btn-outline-danger"}`}
+            onClick={() => setMode("UNENROLL")}
+          >
+            Unenroll
+          </button>
+        </div>
       </div>
 
+      {/* ✅ 课程卡片 */}
       <div id="wd-dashboard-courses" className="row mt-3">
         <div className="row row-cols-1 row-cols-md-5 g-4">
           {filteredCourses.map((course) => (
             <div key={course._id} className="wd-dashboard-course col" style={{ width: "300px" }}>
               <div className="card rounded-3 overflow-hidden">
-                {/* ✅ 图片和课程标题 */}
+
+                {/* ✅ 图片和描述包 Link */}
                 <Link
                   to={`/Kambaz/Courses/${course._id}/Home`}
                   className="wd-dashboard-course-link text-decoration-none text-dark"
@@ -90,7 +108,7 @@ export default function Dashboard({
                   </div>
                 </Link>
 
-                {/* ✅ 按钮组 */}
+                {/* ✅ Go + Enroll/Unenroll 按钮并排 */}
                 <div className="d-flex justify-content-between align-items-center p-2 pt-0">
                   <Link to={`/Kambaz/Courses/${course._id}/Home`} className="btn btn-primary btn-sm">
                     Go
