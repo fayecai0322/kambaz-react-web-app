@@ -88,6 +88,7 @@ export default function Kambaz() {
                                     addNewCourse={addNewCourse}
                                     deleteCourse={deleteCourse}
                                     updateCourse={updateCourse}
+                                    fetchAllCourses={fetchCourses}
                                 />
                             </ProtectedRoute>
                         }
@@ -103,6 +104,7 @@ export default function Kambaz() {
                                     addNewCourse={addNewCourse}
                                     deleteCourse={deleteCourse}
                                     updateCourse={updateCourse}
+                                    fetchAllCourses={fetchCourses}
                                 />
                             </ProtectedRoute>
                         }

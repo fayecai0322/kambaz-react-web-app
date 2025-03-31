@@ -34,7 +34,7 @@ export const signup = async (user: any): Promise<{ _id: string; username: string
 // }
 
 export const updateUser = async(user: any)=> {
-    const response = await axiosWithCredentials.put(`${USERS_API}/ ${user._id}`, user);
+    const response = await axiosWithCredentials.put(`${USERS_API}/${user._id}`, user);
     return response.data;
 }
 

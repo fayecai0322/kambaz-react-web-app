@@ -11,16 +11,22 @@ export default function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const signin = async() => {
-    const user = await client.signin(credentials);
-
-    if (!user) {
-      setError("Invalid username or password"); // ✅ Display error message
-      return;
+  const signin = async () => {
+    try {
+      const user = await client.signin(credentials);
+      if (!user || (user as any).error) {
+        setError("Invalid username or password");
+        return;
+      }
+      dispatch(setCurrentUser(user));
+      navigate("/Kambaz/Dashboard");
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        setError("Incorrect username or password");
+      } else {
+        setError(error.message || "An error occurred during signin.");
+      }
     }
-
-    dispatch(setCurrentUser(user));
-    navigate("/Kambaz/Dashboard"); // ✅ Fixed Typo
   };
 
   return (

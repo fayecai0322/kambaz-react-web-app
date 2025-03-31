@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
@@ -10,8 +10,8 @@ export default function Profile() {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const updateProfile = async() => {
-    await client.updateUser(profile);
-    dispatch(setCurrentUser(updateProfile));
+    const updated = await client.updateUser(profile);
+    dispatch(setCurrentUser(updated));
   };
     
 
@@ -31,8 +31,8 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="container mt-5 d-flex justify-content-center align-items-center">
-      <div className="card shadow p-4" style={{ maxWidth: "700px", width: "100%" }}>
+    <div className="container py-5 d-flex justify-content-center align-items-center">
+      <div className="card shadow p-5" style={{ maxWidth: "1000px", width: "100%" }}>
         <h3 className="text-center mb-4">Profile</h3>
         
         {profile && (
@@ -121,15 +121,31 @@ export default function Profile() {
             </div>
 
             {/* Buttons */}
-            <div className="d-flex justify-content-between">
-              <button onClick={updateProfile} className="btn btn-primary w-100 mb-2">Update</button>
-              <button onClick={signout} className="btn btn-danger w-50" id="wd-signout-btn">
+            <div className="d-flex justify-content-between mt-3">
+              <button
+                onClick={updateProfile}
+                className="btn btn-primary"
+                style={{ minWidth: "120px", fontSize: "14px", whiteSpace: "nowrap" }}
+              >
+                Update
+              </button>
+              <button
+                onClick={signout}
+                className="btn btn-danger"
+                style={{ minWidth: "120px", fontSize: "14px", whiteSpace: "nowrap" }}
+                id="wd-signout-btn"
+              >
                 Sign Out
               </button>
-              <Link to="/Kambaz/Dashboard" className="btn btn-primary w-50">
+              {/* <Link
+                to="/Kambaz/Dashboard"
+                className="btn btn-secondary"
+                style={{ minWidth: "120px", fontSize: "14px", whiteSpace: "nowrap" }}
+              >
                 Save
-              </Link>
+              </Link> */}
             </div>
+
           </form>
         )}
       </div>

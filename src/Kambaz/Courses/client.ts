@@ -31,8 +31,14 @@ export const findModulesForCourse = async(courseId: string) => {
     const response = await axiosWithCredentials.get(`${COURSES_API}/${courseId}/modules`);
     return response.data;
 }
-//test
 export const findCoursesForCurrentUser = async () => {
-    const res = await axiosWithCredentials.get(`${REMOTE_SERVER}/api/users/current/courses`);
+    const token = localStorage.getItem('token'); // 或从 Redux store 获取
+  
+    const res = await axiosWithCredentials.get(`${REMOTE_SERVER}/api/users/current/courses`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  
     return res.data;
   };
