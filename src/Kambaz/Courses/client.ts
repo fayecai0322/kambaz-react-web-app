@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER; 
+// const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER; 
+const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER.replace(/\/+$/, "");
 const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 
 const axiosWithCredentials = axios.create({

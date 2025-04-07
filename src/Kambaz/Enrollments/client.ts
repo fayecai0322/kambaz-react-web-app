@@ -6,7 +6,8 @@ export interface Enrollment {
   course: string;
 }
 
-export const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER;
+// export const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER;
+export const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER.replace(/\/+$/, "");
 const API = `${REMOTE_SERVER}/api/enrollments`;
 
 // ✅ 创建带 withCredentials 的 axios 实例

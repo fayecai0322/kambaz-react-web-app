@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER; 
+// const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER; 
+const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER.replace(/\/+$/, "");
 const MODULES_API = `${REMOTE_SERVER}/api/modules`;
 
 export const deleteModule = async(moduleId: string) => {
