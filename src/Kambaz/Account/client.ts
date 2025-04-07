@@ -15,7 +15,8 @@ interface Course {
 const axiosWithCredentials = axios.create({
     withCredentials: true
 });
-export const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER; 
+// export const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER; 
+export const REMOTE_SERVER = import.meta.env.VITE_APP_REMOTE_SERVER.replace(/\/+$/, "");
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
 export const findAllUsers = async()=>{
     const response = await axiosWithCredentials.get(USERS_API);
