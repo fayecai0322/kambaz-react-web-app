@@ -24,4 +24,6 @@ export const unenrollFromCourse = async (userId: string, courseId: string) =>
 export const findEnrollmentsByUser = async (userId: string): Promise<Enrollment[]> => {
   const response = await axiosWithCredentials.get<Enrollment[]>(`${API}/${userId}`);
   return response.data;
+
+
 };

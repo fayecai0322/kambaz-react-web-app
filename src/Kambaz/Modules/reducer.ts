@@ -12,7 +12,7 @@ interface Module {
 }
 
 const initialState : {modules: Module[]} = {
-    // modules: modules,
+    // modules: modules, start with no module, and the module comes from mangodb
     modules: [],
 };
 

@@ -11,7 +11,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://kambaz-node-server-app-faye-cb2f496bc692.herokuapp.com',
+        // target: 'https://kambaz-node-server-app-faye-cb2f496bc692.herokuapp.com',
+        target: 'https://kambaz-node-server-app2-faye-497af741c81d.herokuapp.com/',
         changeOrigin: true,
         secure: false,
       },

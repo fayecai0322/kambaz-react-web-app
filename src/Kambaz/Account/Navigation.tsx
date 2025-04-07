@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 export default function AccountNavigation() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const links = currentUser ? ["Profile"] : ["Signin", "Signup"];
+  // const active = (path:string)=> (pathname.includes(path)? "active": "");
   const { pathname } = useLocation();
 
   return (
@@ -35,6 +36,15 @@ export default function AccountNavigation() {
           className={`text-decoration-none ${pathname === "/Kambaz/Account/Profile" ? "fw-bold " : "text-black"}`}
         >
           <span className="fs-5">Profile</span>
+        </Link>
+      )}
+      {/* ✅ 如果是管理员，显示 Users 页面入口 */}
+      {currentUser && currentUser.role === "ADMIN" && (
+        <Link
+          to="/Kambaz/Account/Users"
+          className={`mt-4 text-decoration-none ${pathname === "/Kambaz/Account/Users" ? "fw-bold" : "text-black"}`}
+        >
+          <span className="fs-5">Users</span>
         </Link>
       )}
     </div>
