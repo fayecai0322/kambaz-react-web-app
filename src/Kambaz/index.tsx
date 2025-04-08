@@ -73,6 +73,22 @@ export default function Kambaz() {
           courses.map((c) => (c._id === course._id ? course : c))
       );
     };
+    const updateEnrollment = async (courseId: string, enrolled: boolean) => {
+      if (enrolled) {
+        await userClient.enrollIntoCourse(currentUser._id, courseId);
+      } else {
+        await userClient.unenrollFromCourse(currentUser._id, courseId);
+      }
+      setCourses(
+        courses.map((course) => {
+          if (course._id === courseId) {
+          return { ...course, enrolled: enrolled };
+        } else {
+          return course;
+        }
+      })
+    );
+    };
     useEffect(() => {
       if (currentUser) fetchCourses();
     }, [currentUser, enrolling]);
@@ -114,6 +130,7 @@ export default function Kambaz() {
                                     enrolling={enrolling}
                                     setEnrolling={setEnrolling}
                                     fetchAllCourses={fetchCourses} 
+                                    updateEnrollment={updateEnrollment}
                                     />
                             </ProtectedRoute>
                         }
