@@ -2,6 +2,8 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { addAssignment, updateAssignment } from "./reducer";
+import { updateAssignment as updateAssignmentAPI } from "./client";
+
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
@@ -28,13 +30,18 @@ export default function AssignmentEditor() {
     }
   }, [existingAssignment, aid, cid, navigate]);
 
-  const handleSave = () => {
-    if (existingAssignment) {
-      dispatch(updateAssignment(assignment));
-    } else {
-      dispatch(addAssignment(assignment));
+  const handleSave = async () => {
+    try {
+      if (existingAssignment) {
+        const updated = await updateAssignmentAPI(assignment); // ✅ 更新到数据库
+        dispatch(updateAssignment(updated));                   // ✅ 再更新 Redux
+      } else {
+        dispatch(addAssignment(assignment));
+      }
+      navigate(`/Kambaz/Courses/${cid}/Assignments`);
+    } catch (error) {
+      console.error("❌ 保存作业失败", error);
     }
-    navigate(`/Kambaz/Courses/${cid}/Assignments`);
   };
 
   return (

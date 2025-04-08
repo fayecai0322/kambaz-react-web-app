@@ -3,6 +3,7 @@ import { FaSearch, FaRegFileAlt, FaTrash } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteAssignment } from "./reducer";
+import { deleteAssignment as deleteAssignmentAPI } from "./client";
 import { AssignmentButtons } from "./AssignmentButtons";
 import AssignmentPercentageButton from "./AssignmentPercentageButton";
 
@@ -70,7 +71,14 @@ export default function Assignments() {
                   {/* Delete Button */}
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => dispatch(deleteAssignment(assignment._id))}
+                    onClick={async () => {
+                      try {
+                        await deleteAssignmentAPI(assignment._id);  // ✅ 调用后端删除接口
+                        dispatch(deleteAssignment(assignment._id)); // ✅ 再更新 Redux
+                      } catch (error) {
+                        console.error("❌ 删除作业失败", error);
+                      }
+                    }}
                   >
                     <FaTrash />
                   </button>

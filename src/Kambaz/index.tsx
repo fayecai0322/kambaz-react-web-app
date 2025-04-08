@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 // import { v4 as uuidv4 } from "uuid";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import Session from "./Account/Session";
-// import * as client from "./Courses/client";
 import * as userClient from "./Account/client";
 import * as courseClient from "./Courses/client";
 
@@ -21,20 +20,24 @@ export default function Kambaz() {
     console.log("Kambaz Loaded!");
 
     const [courses, setCourses] = useState<any[]>([]);
+    const [enrolling, setEnrolling] = useState<boolean>(false);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-    const fetchCourses = async() => {
-      try{
-        // const courses  = (await userClient.findMyCourses()) as any[];
-        const courses = await courseClient.fetchAllCourses() as any[];
-        setCourses(courses);
-      }catch(error){
-        console.error(error);
+    // ✅ 获取所有课程 + 标注哪些课程已注册
+    const fetchCourses = async () => {
+      try {
+        if (!currentUser) return;
+        const allCourses = await courseClient.fetchAllCourses() as any[];
+        const enrolledCourses = await userClient.findCoursesForUser(currentUser._id) as any[];
+        const coursesWithStatus = allCourses.map((course: any) => ({
+          ...course,
+          enrolled: enrolledCourses.some((c: any) => c._id === course._id),
+        }));
+        setCourses(coursesWithStatus);
+      } catch (error) {
+        console.error("❌ Failed to fetch courses:", error);
       }
     };
-    useEffect(()=> {
-      fetchCourses();
-    },[currentUser]);
-
+    
     const [course, setCourse] = useState<any>({
         _id: "1234",
         name: "New Course",
@@ -46,7 +49,8 @@ export default function Kambaz() {
     //Calls createCourse() when a user submits a new course
     //Updates the courses state to instantly reflect the change in the UI
     const addNewCourse = async() => {
-      const newCourse = await userClient.createCourse(course);
+      // const newCourse = await userClient.createCourse(course);
+      const newCourse = await courseClient.createCourse(course);
       setCourses([...courses, newCourse]);
     };
     //Sends a request to delete the course from the backend
@@ -69,7 +73,9 @@ export default function Kambaz() {
           courses.map((c) => (c._id === course._id ? course : c))
       );
     };
-
+    useEffect(() => {
+      if (currentUser) fetchCourses();
+    }, [currentUser, enrolling]);
     return (
       <Session>
         <div id="wd-kambaz">
@@ -105,8 +111,10 @@ export default function Kambaz() {
                                     addNewCourse={addNewCourse}
                                     deleteCourse={deleteCourse}
                                     updateCourse={updateCourse}
-                                    fetchAllCourses={fetchCourses}
-                                />
+                                    enrolling={enrolling}
+                                    setEnrolling={setEnrolling}
+                                    fetchAllCourses={fetchCourses} 
+                                    />
                             </ProtectedRoute>
                         }
                     />

@@ -6,11 +6,18 @@ import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 import {
   addModule, editModule, updateModule, deleteModule,
-  setModules, updateLesson, editLesson,deleteLesson
+  setModules, updateLesson, deleteLesson
 } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 import * as coursesClient from "../Courses/client";
 import * as modulesClient from "./client";
+
+interface Lesson {
+  _id: string;
+  name: string;
+  description?: string;
+  editing?: boolean;
+}
 
 export default function Modules() {
   const { cid } = useParams();
@@ -19,6 +26,10 @@ export default function Modules() {
   const dispatch = useDispatch();
 
   const saveModule = async (module: any) => {
+    if (!module._id) {
+      console.error("❌ Missing module ID, cannot save.");
+      return;
+    }
     await modulesClient.updateModule(module);
     dispatch(updateModule(module));
   };
@@ -32,15 +43,11 @@ export default function Modules() {
     if (!cid) return;
     const newModule = { name: moduleName, course: cid };
     const module = await coursesClient.createModuleForCourse(cid, newModule);
-    console.log("✅ Created module:", module);
     dispatch(addModule(module));
   };
 
   const addLesson = async (moduleId: string) => {
-    const newLesson = {
-      name: "New Lesson",
-      description: "Lesson description",
-    };
+    const newLesson = { name: "New Lesson", description: "Lesson description" };
     const lesson = await modulesClient.addLessonToModule(moduleId, newLesson);
     const updatedModules = modules.map((m: any) =>
       m._id === moduleId
@@ -50,20 +57,32 @@ export default function Modules() {
     dispatch(setModules(updatedModules));
   };
 
+  const handleUpdateLesson = async (
+    moduleId: string,
+    lessonId: string,
+    updates: any
+  ) => {
+    try {
+      const updatedLesson = await modulesClient.updateLesson(moduleId, lessonId, updates);
+      dispatch(updateLesson({
+        moduleId,
+        lessonId,
+        updates: updatedLesson,
+      }));
+    } catch (error) {
+      console.error("❌ Failed in updating lesson:", error);
+    }
+  };
+
   const fetchModules = async () => {
     if (!cid) return;
     const modules = await coursesClient.findModulesForCourse(cid as string);
-    console.log("✅ Fetched modules:", modules);
     dispatch(setModules(modules));
   };
 
   useEffect(() => {
     fetchModules();
   }, []);
-
-  useEffect(() => {
-    console.log("🔄 Updated Redux modules:", modules);
-  }, [modules]);
 
   return (
     <div className="container mt-3">
@@ -103,57 +122,64 @@ export default function Modules() {
             </div>
 
             {/* Lessons */}
-            {module.lessons && module.lessons.length > 0 && (
+            {module.lessons?.length > 0 && (
               <div className="p-3 mt-2 border rounded bg-white">
                 <h6 className="text-secondary">Lessons</h6>
                 <ul className="list-group">
-                  {module.lessons.map((lesson: any) => (
-                    <li
-                      key={lesson._id}
-                      className="list-group-item d-flex justify-content-between align-items-center"
-                    >
-                      <div className="d-flex align-items-center w-100">
-                        <BsGripVertical className="me-2 fs-4" />
-                        {lesson.editing ? (
-                          <input
-                            className="form-control w-50"
-                            value={lesson.name}
-                            onChange={(e) =>
-                              dispatch(updateLesson({
-                                moduleId: module._id,
-                                lessonId: lesson._id,
-                                updates: { name: e.target.value },
-                              }))
-                            }
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                dispatch(updateLesson({
-                                  moduleId: module._id,
-                                  lessonId: lesson._id,
-                                  updates: { editing: false },
-                                }));
+                  {module.lessons.map((lesson: Lesson) => {
+                    console.log("➡️ Current lesson in map:", lesson);
+                    console.log("➡️ lesson._id in map:", lesson._id);
+                    return (
+                      <li
+                        key={lesson._id}
+                        className="list-group-item d-flex justify-content-between align-items-center"
+                      >
+                        <div className="d-flex align-items-center w-100">
+                          <BsGripVertical className="me-2 fs-4" />
+                          {lesson.editing ? (
+                            <input
+                              className="form-control w-50"
+                              value={lesson.name}
+                              onChange={(e) =>
+                                handleUpdateLesson(module._id, lesson._id, { name: e.target.value })
                               }
-                            }}
-                          />
-                        ) : (
-                          <span>{lesson.name}</span>
-                        )}
-                      </div>
-                      <LessonControlButtons
-                        onEdit={() =>
-                          dispatch(editLesson({
-                            moduleId: module._id,
-                            lessonId: lesson._id
-                          }))
-                        }
-                        onDelete={() => 
-                          dispatch(deleteLesson({
-                            moduleId: module._id,
-                            lessonId: lesson._id }))
-                        }
-                      />
-                    </li>
-                  ))}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  handleUpdateLesson(module._id, lesson._id, { editing: false });
+                                }
+                              }}
+                            />
+                          ) : (
+                            <span>{lesson.name}</span>
+                          )}
+                        </div>
+                        <LessonControlButtons
+                          lessonId={lesson._id}
+                          onEdit={async (currentLessonId: string) => {
+                            console.log("🔥 onEdit in index.tsx called with currentLessonId:", currentLessonId);
+                            console.log("🔥 Calling modulesClient.updateLesson with moduleId:", module._id, "and lessonId:", currentLessonId);
+                            try {
+                              const updatedLesson = await modulesClient.updateLesson(
+                                module._id,
+                                currentLessonId,
+                                { editing: true }
+                              );
+                              console.log("✅ modulesClient.updateLesson successful, updatedLesson:", updatedLesson);
+                              fetchModules(); // ✅ 重新获取最新状态
+                            } catch (err) {
+                              console.error("❌ Cannot edit lesson:", err);
+                            }
+                          }}
+                          onDelete={() =>
+                            dispatch(deleteLesson({
+                              moduleId: module._id,
+                              lessonId: lesson._id
+                            }))
+                          }
+                        />
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}

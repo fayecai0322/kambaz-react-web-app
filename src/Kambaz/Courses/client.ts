@@ -7,14 +7,18 @@ const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 const axiosWithCredentials = axios.create({
   withCredentials: true
 });
+export const createCourse = async (course: any) => {
+  const { data } = await axiosWithCredentials.post(COURSES_API, course);
+  return data;
+};
 
 export const fetchAllCourses = async() => {
     const { data } = await axiosWithCredentials.get(COURSES_API);
     return data;
 }
 
-export const deleteCourse = async(id: string) => {
-    const { data } = await axiosWithCredentials.delete(`${COURSES_API}/${id}`);
+export const deleteCourse = async(moduleId: string) => {
+    const { data } = await axiosWithCredentials.delete(`${COURSES_API}/${moduleId}`);
     return data;
 }
 
@@ -42,4 +46,8 @@ export const findCoursesForCurrentUser = async () => {
     });
   
     return res.data;
+};
+export const findUsersForCourse = async (courseId: string) => {
+  const response = await axios.get(`${COURSES_API}/${courseId}/users`);
+  return response.data;
   };
