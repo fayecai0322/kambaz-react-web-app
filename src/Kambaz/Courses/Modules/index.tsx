@@ -4,7 +4,7 @@ import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
 import { useParams } from "react-router";
 import { useState } from "react";
-import { addModule, editModule, updateModule, deleteModule } from "./reducer";
+import { addModule, editModule, updateModule, deleteModule, addLesson,editLesson,deleteLesson } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function Modules() {
@@ -12,6 +12,8 @@ export default function Modules() {
   const { modules } = useSelector((state: any) => state.modulesReducer);
   const [moduleName, setModuleName] = useState("");
   const dispatch = useDispatch();
+  // const [newLessons, setNewLessons] = useState<{ [moduleId: string]: string }>({});
+
 
   return (
     <div className="container mt-3">
@@ -41,6 +43,7 @@ export default function Modules() {
                   
                   {module.editing && (
                     <input
+                      id={`module-input-${module._id}`}
                       className="form-control w-100" // ✅ Ensures Full Width
                       autoFocus
                       onChange={(e) =>
@@ -59,11 +62,33 @@ export default function Modules() {
 
                 {/* ✅ Control Buttons */}
                 <div>
-                  <ModuleControlButtons
-                    moduleId={module._id}
-                    deleteModule={() => dispatch(deleteModule(module._id))}
-                    editModule={() => dispatch(editModule(module._id))}
-                  />
+                <ModuleControlButtons
+                  moduleId={module._id}
+                  deleteModule={() => dispatch(deleteModule(module._id))}
+                  editModule={() => dispatch(editModule(module._id))}
+                  onAddLesson={(moduleId) => {
+                    const name = window.prompt("Enter lesson name:");
+                    if (name && name.trim()) {
+                      dispatch(addLesson({
+                        moduleId,
+                        lesson: { name: name.trim() }
+                      }));
+                    }
+                  }}
+                  onConfirmModule={(moduleId) => {
+                    const input = document.querySelector(`#module-input-${moduleId}`) as HTMLInputElement;
+                    const name = input?.value.trim();
+                    if (name) {
+                      dispatch(updateModule({
+                        _id: moduleId,
+                        name,
+                        course: cid,
+                        editing: false,
+                        lessons: module.lessons,
+                      }));
+                    }
+                  }}
+                />
                 </div>
               </div>
 
@@ -79,17 +104,62 @@ export default function Modules() {
                       >
                         <div className="d-flex align-items-center">
                           <BsGripVertical className="me-2 fs-4" />
-                          {lesson.name}
+                          {lesson.editing ? (
+                          <input
+                            id={`lesson-input-${lesson._id}`}
+                            className="form-control"
+                            defaultValue={lesson.name}
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                dispatch({
+                                  type: "modules/updateLesson",
+                                  payload: {
+                                    moduleId: module._id,
+                                    lessonId: lesson._id,
+                                    name: (e.target as HTMLInputElement).value
+                                  }
+                                });
+                              }
+                            }}
+                          />
+                        ) : (
+                          <span>{lesson.name}</span>
+                        )}
                         </div>
-                        <LessonControlButtons />
+                        <LessonControlButtons
+                          onEdit={() =>
+                            dispatch(editLesson({ moduleId: module._id, lessonId: lesson._id }))
+                          }
+                          onDelete={() =>
+                            dispatch(deleteLesson({ moduleId: module._id, lessonId: lesson._id }))
+                          }
+                          onConfirm={() => {
+                            const input = document.querySelector(`#lesson-input-${lesson._id}`) as HTMLInputElement;
+                            const name = input?.value.trim();
+                            if (name) {
+                              dispatch({
+                                type: "modules/updateLesson",
+                                payload: {
+                                  moduleId: module._id,
+                                  lessonId: lesson._id,
+                                  name,
+                                },
+                              });
+                            }
+                          }}
+                        />
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
+
             </div>
           ))}
       </div>
     </div>
   );
 }
+
+

@@ -5,13 +5,29 @@ import { FaPencil } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
 
 export default function ModuleControlButtons(
-    { moduleId, deleteModule, editModule }: { moduleId: string; deleteModule: (moduleId: string) => void; editModule: (moduleId:string) => void} ) {
+    {
+        moduleId,
+        deleteModule,
+        editModule,
+        onAddLesson,
+        onConfirmModule,
+      }: {
+        moduleId: string;
+        deleteModule: (moduleId: string) => void;
+        editModule: (moduleId: string) => void;
+        onAddLesson?: (moduleId: string) => void; // ✅ 添加这个
+        onConfirmModule?: (moduleId: string) => void;
+      } ) {
 return (
     <div className="float-end">
         <FaPencil onClick={() => editModule(moduleId)} className="text-primary me-3" />
-        <FaTrash className="text-danger me-2 mb-1" onClick={() => deleteModule(moduleId)}/>
-        <GreenCheckmark />
-        <IoIosAdd className="fs-1"/>
+        <FaTrash onClick={() => deleteModule(moduleId)} className="text-danger me-2 mb-1" />
+        <GreenCheckmark onClick={() => onConfirmModule?.(moduleId)}/>
+        <IoIosAdd
+        className="fs-1 text-success"
+        style={{ cursor: "pointer" }}
+        onClick={() => onAddLesson?.(moduleId)} // ✅ 绑定事件
+      />
         <IoEllipsisVertical className="fs-4" />
         
     </div>

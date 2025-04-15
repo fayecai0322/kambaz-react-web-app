@@ -41,16 +41,15 @@ export default function Dashboard({
   const [showAllCourses, setShowAllCourses] = useState(false);
 
   const isStudent = currentUser?.role === "Student";
-  const isFaculty = ["FACULTY", "TA"].includes(currentUser?.role); // ✅ Supports TA role
+  const isFaculty = ["FACULTY", "TA", "ADMIN"].includes(currentUser?.role);
 
-  // ✅ Fix TypeScript Error: Explicitly set 'enrollment' type
-  const filteredCourses = showAllCourses
-    ? courses
-    : courses.filter((course) =>
+  const filteredCourses = isStudent && !showAllCourses
+    ? courses.filter((course) =>
         enrollments.some((enrollment: any) =>
           enrollment.user === currentUser?._id && enrollment.course === course._id
         )
-      );
+      )
+    : courses;
 
   return (
     <div id="wd-dashboard" className="p-4">

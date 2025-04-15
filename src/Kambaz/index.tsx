@@ -24,7 +24,19 @@ export default function Kambaz() {
     description: "New Description",
   });
   const addNewCourse = () => {
-    setCourses([...courses, {...course, _id: uuidv4()}]);
+    const newCourse = { ...course, _id: uuidv4() };
+    setCourses([...courses, newCourse]);
+
+    setCourse({
+      _id: "",
+      name: "",
+      number: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+      department: "",
+      credits: 0,
+    });
   };
   const deleteCourse = (courseId: any) => {
     setCourses(courses.filter((course) => course._id !== courseId));
@@ -73,5 +85,3 @@ export default function Kambaz() {
           </div>
       </div>
   );}
-  
-    
